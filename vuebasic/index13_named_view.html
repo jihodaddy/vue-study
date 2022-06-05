@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네스티드 라우터 예</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- (1) 라우터 영역 정의-->
+        <router-view name="header"></router-view>
+        <!-- name이 없는 경우 디폴트로 설정 -->
+        <router-view></router-view>
+        <router-view name="footer"></router-view>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <!-- 라우터 CDN -->
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+    <script>
+        // (2) 컴포넌트 내용 정의
+        var Body = {template: '<div>This is Body</div>'};
+        var Header = {template: '<div>This is Header</div>'};
+        var Footer = {template: '<div>This is Footer</div>'};
+
+        //(3) 라우터 정의
+        var router = new VueRouter({
+            routes: [
+                {
+                    //(4) 네임드 뷰가 실행될 URL 정의
+                    path: '/',
+                    //(5) 앞의 <router-view>에 정의한 name 속성에 따라 표시될 컴포넌트 정의
+                    components: {
+                        default: Body,
+                        header: Header,
+                        footer: Footer
+                    }
+                }
+            ]
+        });
+
+        // (6) 뷰 인스턴스에 라우터 추가
+        var app = new Vue({
+            router
+        }).$mount('#app')
+    </script>
+</body>
+
+</html>

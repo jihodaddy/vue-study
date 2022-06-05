@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다른 컴포넌트의 값을 직접 참조하는 예</title>
+</head>
+<body>
+    <div id="app">
+        <my-component1></my-component1>
+        <my-component2></my-component2>
+        
+    </div>
+    <!-- CDN 방식으로 뷰 라이브러리 로딩 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+        //첫 번째 컴포넌트 내용
+        var cmp1={
+            template: '<div>첫 번째 지역 컴포넌트: {{ cmp1Data}}</div>',
+            data: function(){
+                return{
+                    cmp1Data: 100
+                }
+            }
+        };
+
+        //두 번째 컴포넌트 내용
+        var cmp2={
+            template: '<div>두 번째 지역 컴포넌트: {{ cmp2Data}}</div>',
+            // my-component2에서 my-component1의 값을 직접 참조할 수 없으므로
+            //{{ cmp2Data }}는 아무 값도 출력되지 않음
+            data: function(){
+                return{
+                    cmp1Data: cmp1.data.cmp1Data
+                }
+            }
+        };
+
+        new Vue({
+            el: '#app',
+            components:{
+                'my-component1' : cmp1,
+                'my-component2' : cmp2,
+            }
+        })
+    </script>
+</body>
+    <script>
+        
+    </script>
+    
+</html>

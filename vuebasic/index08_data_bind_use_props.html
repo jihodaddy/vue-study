@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>props속성을 사용한 데이터 통신 </title>
+</head>
+<body>
+    <div id="app">
+        <!-- v-bind속성 추가 -->
+        <!-- v-bind: props 속성이름 = "상위 컴포넌트의 data 속성" -->
+        <child-component v-bind:propsdata="message"></child-component>
+    </div>
+    <!-- CDN 방식으로 뷰 라이브러리 로딩 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+        //(2) 하위 컴포넌트 등록(전역 콤포넌트)
+        Vue.component('child-component', {
+            props:['propsdata'],    // 컴포넌트 내용에 props 속성으로 propsdata 정의
+            template: '<p>{{ propsdata }}</p>'  //화면에 표시되는 내용
+        })
+
+        //(1) 인스턴스 생성
+        // 컴포넌트 등록과 동시에 뷰 인스턴스 자체가 상위 컴포넌트가 됨
+        new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue! passed from Parent Component'
+            }
+        });
+    </script>
+</body>
+</html>

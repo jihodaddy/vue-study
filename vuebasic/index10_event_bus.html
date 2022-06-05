@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 버스 예</title>
+</head>
+<body>
+    <div id="app">
+        <child-component></child-component>
+    </div>
+    <!-- CDN 방식으로 뷰 라이브러리 로딩 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+        //(1)이벤트 버스를 위한 인스턴스 1개 생성
+        var eventBus = new Vue();
+
+        //(2) 이벤트를 보내는 컴포넌트 : $emit()구현
+        // 전역 컴포넌트 등록
+        Vue.component('child-component', {
+            template: '<div>하위 컴포넌트 영역입니다. <button v-on:click="showLog">show</button></div>',
+            methods:{
+                showLog:function(){
+                    eventBus.$emit('triggerEventBus', 100);
+                }
+            }
+        })
+
+        //(3) 이벤트를 받는 컴포넌트에서 $on() 구현
+        // 인트턴스 생성(최상위 컴포넌트)
+        var app = new Vue({
+            el: '#app',
+            created: function(){
+                eventBus.$on('triggerEventBus', function(value){
+                    console.log("이벤트를 전달받음, 전달받은 값: ", value);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
